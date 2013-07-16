@@ -1,0 +1,7 @@
+INDEX VERSION 1.122+C:\Users\Rachel Ngeno\git\stats\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1071713913.index
+1432850876.index
+2563151441.index
+2311332543.index
+1542191512.index
+2824742757.index
