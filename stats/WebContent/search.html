@@ -63,8 +63,7 @@ function chartLoad(idn)
 			 $.get(charthref+'.json', function(chart) {
 				 $(chart.indicators).each(function(i, dat){
 					 if(dat.id==idn){												
-					   var anchor = $("<img  >").attr("Src",charthref+'/data').append("<br />")								                                         
-                                        $("#Charts").append(anchor);
+					   var anchor = $("<img  >").attr("Src",charthref+'/data').append("<br />")$("#Charts").append(anchor);
 					 }					
 				 });
 				});	  		
@@ -79,10 +78,13 @@ function chartLoad(idn)
 	   	{ 
 	   	    $(json.indicators).each(function(i, data)
                                 {
-                                	if(data.name==""){$("#indicators").html("<p style='color:red;'>no indicators</p>");}
-									  idn=data.id;
-				var anchor = $("<a id='"+idn+"'  onclick='javascript:chartLoad(id),printDetails(id)' ><a>").append(data.name).append("<br>");
-                                        $("#indicators").append(anchor);
+                                	if(data.name=="")
+                                	{
+                                		$("#indicators").html("<p style='color:red;'>no indicators</p>");
+                                	}
+									idn=data.id;
+									var anchor = $("<a id='"+idn+"'onclick='javascript:chartLoad(id),printDetails(id)'><a>").append(data.name).append("<br>");
+                                    $("#indicators").append(anchor);
                                 });
 	   	});
 	}   
