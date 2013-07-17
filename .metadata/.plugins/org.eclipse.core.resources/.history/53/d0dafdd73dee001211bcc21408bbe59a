@@ -1,0 +1,93 @@
+<style type="text/css" media="screen">
+	#main{
+	float:left; height:100%;
+	}
+	#indicators{
+	position:absolute; left:50%;
+	}
+	#indicators1{
+	position:absolute; left:100%;
+	}
+</style>
+<script type="text/javascript">	
+	var id1,id,href,idn;	
+	var data;
+	var  ChartData={};
+	
+	 function chartLoad(idn)
+	{		
+		$("#Charts").html("");
+      	$.get('../../../api/charts/query/'+'.json', function(json)
+      	{ 			
+			$(json.charts).each(function(i, data)
+			{
+	         	var chartid=data.id;
+				var charthref=data.href;				  
+			 	$.get(charthref+'.json', function(chart) 
+			 	{
+				 	$(chart.indicators).each(function(i, dat)
+					{
+					 	if(dat.id==idn)
+						{
+					 		var append='<p>'+data.id+data.href+'</p>';
+					  		//var anchor = $("<img  >").attr("Src",charthref+'/data').append("<br />")$("#Charts").append(anchor);
+						}					
+				 	});
+				});	  		
+			});	
+       	});
+     }
+	 
+	 function printIt(id)
+	{
+		$("#indicators1").html("");
+	    $.get(id+'.json',function(json)
+		{ 
+		 	$(json.indicators).each(function(i, data)
+	        {
+	         	if(data.name==""){$("#indicators1").html("<p style='color:red;'>no indicators</p>");
+	        }
+			idn=data.id;
+			var anchor = $("<a id='"+idn+"'  onclick='javascript:chartLoad(id),printDetails(id)' ><a>").append(data.name).append("<br>");
+	        $("#indicators1").append(anchor);
+	        });
+		 });
+	}   
+	
+	$(document).ready(function(){
+        $("#search").keyup(function(){
+            $("#results").html("");
+            $("#indicators").html("");
+            $.get('../api/indicatorGroups/query/'+$(this).val()+'.json', function(json){
+                $(json.indicatorGroups).each(function(i, data){
+					theId=data.href;
+					id=data.href;
+					id1=data.href;
+                    var anchor = $("<a id='links' onclick='#'></a>").append(data.name);
+					$(anchor).bind('click',{'name':data.name,'id':data.href},function(event){
+						$("#indicators").html("");		
+						$.get(event.data.id+'.json',function(json){ 
+							$(json.indicators).each(function(i, data){			
+								var append='<div>';
+								append=append+'<p>'+data.name+'</p>';
+								append=append+'<p><a href=\''+data.href+'\'>More Details</a></p>';
+								append=append+'<hr/>';
+								$("#indicators").append(append);																	
+								});
+							});
+						});
+						var anchor1 = $("<p class='blue' id='"+id1+"' onclick='javascript:printIt(id)'></p>").append(data.name);
+						$("#results").append(anchor1);
+                        $("#results").append(anchor).append("<br/>");                           
+                        });
+                    });    
+                });	              
+            });
+</script>
+<div id="main" >
+<label for="search">Search Criteria For Group 5</label>
+<input type="text" id="search" class="search" />
+<div id="results"></div>
+<div id="indicators"></div>
+<div id="indicators1"></div>
+<div id="Charts"></div>
